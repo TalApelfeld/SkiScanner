@@ -46,7 +46,7 @@ const Header: React.FC = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  const headerClasses = `fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+  const headerClasses = `fixed top-0 left-0 w-full h-[72px] z-50 transition-all duration-300 ${
     isScrolled ? "bg-white shadow-md py-3" : "bg-transparent py-4"
   }`;
 

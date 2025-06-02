@@ -54,9 +54,10 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="relative">
+    // <div className="relative">
+    <>
       {/* Hero Section with Snow Animation */}
-      <section className="relative h-screen flex items-center">
+      <section className="relative h-screen flex items-center ">
         <SnowAnimation />
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
@@ -68,12 +69,12 @@ const HomePage: React.FC = () => {
           }}
         />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10 mt-[var(--header-offset)]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-2xl"
+            className="max-w-2xl "
           >
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
               Find Your Perfect Ski Getaway
@@ -349,7 +350,8 @@ const HomePage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+    </>
+    // </div>
   );
 };
 

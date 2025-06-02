@@ -17,7 +17,7 @@ const MainLayout: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <motion.main
-        className="flex-grow"
+        className="flex-grow "
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
