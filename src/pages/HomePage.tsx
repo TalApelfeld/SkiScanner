@@ -54,10 +54,9 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    // <div className="relative">
-    <>
+    <div className="relative">
       {/* Hero Section with Snow Animation */}
-      <section className="relative h-screen flex items-center ">
+      <section className="relative xl:h-screen  flex items-center ">
         <SnowAnimation />
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
@@ -69,7 +68,7 @@ const HomePage: React.FC = () => {
           }}
         />
 
-        <div className="container mx-auto px-4 relative z-10 mt-[var(--header-offset)]">
+        <div className="container  mx-auto px-4 z-10  mt-[var(--header-offset)]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,7 +83,7 @@ const HomePage: React.FC = () => {
               and accommodation in one place.
             </p>
 
-            <div className="w-full glassmorphism rounded-xl p-6">
+            <div className="w-full glassmorphism rounded-xl p-6 mb-10">
               <form onSubmit={handleSearch}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
@@ -350,8 +349,7 @@ const HomePage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-    </>
-    // </div>
+    </div>
   );
 };
 

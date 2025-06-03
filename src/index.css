@@ -12,7 +12,7 @@
     --color-error: 244 67 54; /* #F44336 - Error Red */
     --color-neutral: 69 90 100; /* #455A64 - Slate Gray */
     --header-height: 72px; /* Default header height */
-    --header-offset: calc(var(--header-height) + 50px);
+    --header-offset: calc(var(--header-height) + 10px);
   }
 
   body {
