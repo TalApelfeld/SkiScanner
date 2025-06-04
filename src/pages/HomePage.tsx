@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import { Search, Calendar, Plane, MapPin, TrendingUp } from "lucide-react";
+import {
+  Search,
+  Calendar,
+  Plane,
+  MapPin,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setFilters } from "../redux/slices/resortSlice";
 import { AIRPORTS } from "../mockData";
@@ -9,6 +16,9 @@ import ResortCard from "../components/resort/ResortCard";
 import SnowAnimation from "../components/ui/SnowAnimation";
 
 const HomePage: React.FC = () => {
+  const [experienceCategory, setExperienceCategory] = useState<
+    "novice" | "experienced"
+  >("novice");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { filteredResorts, loading, filters } = useAppSelector(
@@ -57,7 +67,7 @@ const HomePage: React.FC = () => {
     <div className="relative">
       {/* Hero Section with Snow Animation */}
       <section className="relative xl:h-screen  flex items-center ">
-        <SnowAnimation />
+        {/* <SnowAnimation /> */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
@@ -85,136 +95,366 @@ const HomePage: React.FC = () => {
 
             <div className="w-full glassmorphism rounded-xl p-6 mb-10">
               <form onSubmit={handleSearch}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label
-                      htmlFor="departure"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                {/* experience LVL of skiing buttons */}
+                <div className="mb-6">
+                  <div className="flex rounded-lg overflow-hidden">
+                    <button
+                      className={`flex-1 py-3 px-4 text-center transition-colors ${
+                        experienceCategory === "novice"
+                          ? "bg-sky-500 text-white font-medium"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                      onClick={() => setExperienceCategory("novice")}
                     >
-                      Flying from
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Plane
-                          className="h-5 w-5 text-gray-400"
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                      <select
-                        id="departure"
-                        value={departureAirport}
-                        onChange={(e) => setDepartureAirport(e.target.value)}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                      >
-                        <option value="">Any Airport</option>
-                        {AIRPORTS.map((airport) => (
-                          <option key={airport.code} value={airport.code}>
-                            {airport.name} ({airport.code})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="budget"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      Never went on a ski trip
+                    </button>
+                    <button
+                      className={`flex-1 py-3 px-4 text-center transition-colors ${
+                        experienceCategory === "experienced"
+                          ? "bg-sky-500 text-white font-medium"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                      onClick={() => setExperienceCategory("experienced")}
                     >
-                      Budget per person
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <TrendingUp
-                          className="h-5 w-5 text-gray-400"
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                      <select
-                        id="budget"
-                        value={budget}
-                        onChange={(e) => setBudget(Number(e.target.value))}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                      >
-                        <option value="1000">Up to €1,000</option>
-                        <option value="1500">Up to €1,500</option>
-                        <option value="2000">Up to €2,000</option>
-                        <option value="3000">Up to €3,000</option>
-                        <option value="5000">Up to €5,000</option>
-                      </select>
-                    </div>
+                      Been there done that
+                    </button>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div>
-                    <label
-                      htmlFor="startDate"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Departure date
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Calendar
-                          className="h-5 w-5 text-gray-400"
-                          strokeWidth={1.5}
-                        />
+                {experienceCategory === "novice" && (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label
+                          htmlFor="departure"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Ski destination
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Plane
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="departure"
+                            value={departureAirport}
+                            onChange={(e) =>
+                              setDepartureAirport(e.target.value)
+                            }
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="">Any Airport</option>
+                            {AIRPORTS.map((airport) => (
+                              <option key={airport.code} value={airport.code}>
+                                {airport.name} ({airport.code})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                      <input
-                        type="date"
-                        id="startDate"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                      />
-                    </div>
-                  </div>
 
-                  <div>
-                    <label
-                      htmlFor="endDate"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Return date
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Calendar
-                          className="h-5 w-5 text-gray-400"
-                          strokeWidth={1.5}
-                        />
+                      <div>
+                        <label
+                          htmlFor="budget"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Number of people
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Users
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="budget"
+                            value={budget}
+                            onChange={(e) => setBudget(Number(e.target.value))}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="1">1</option>
+                            <option value="2">+2</option>
+                            <option value="3">+3</option>
+                            <option value="4">+4</option>
+                            <option value="5">+5</option>
+                          </select>
+                        </div>
                       </div>
-                      <input
-                        type="date"
-                        id="endDate"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        min={startDate}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                      />
                     </div>
-                  </div>
-                </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-accent-600 hover:bg-accent-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center transition-colors"
-                  onClick={() => {
-                    if (!departureAirport) {
-                      alert("Please select a departure airport.");
-                      return;
-                    }
-                    if (!budget) {
-                      alert("Please select a budget.");
-                      return;
-                    }
-                    navigate("/package-builder");
-                  }}
-                >
-                  <Search className="w-5 h-5 mr-2" strokeWidth={2} />
-                  Search Ski Resorts
-                </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div>
+                        <label
+                          htmlFor="startDate"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Departure date
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Calendar
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <input
+                            type="date"
+                            id="startDate"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="endDate"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Return date
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Calendar
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <input
+                            type="date"
+                            id="endDate"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            min={startDate}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-accent-600 hover:bg-accent-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center transition-colors"
+                      onClick={() => {
+                        if (!departureAirport) {
+                          alert("Please select a departure airport.");
+                          return;
+                        }
+                        if (!budget) {
+                          alert("Please select a budget.");
+                          return;
+                        }
+                        navigate("/package-builder");
+                      }}
+                    >
+                      <Search className="w-5 h-5 mr-2" strokeWidth={2} />
+                      Search Ski Resorts
+                    </button>
+                  </>
+                )}
+
+                {experienceCategory === "experienced" && (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label
+                          htmlFor="departure"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Flying from
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Plane
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="departure"
+                            value={departureAirport}
+                            onChange={(e) =>
+                              setDepartureAirport(e.target.value)
+                            }
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="">Any Airport</option>
+                            {AIRPORTS.map((airport) => (
+                              <option key={airport.code} value={airport.code}>
+                                {airport.name} ({airport.code})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="departure"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Flying to
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Plane
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="departure"
+                            value={departureAirport}
+                            onChange={(e) =>
+                              setDepartureAirport(e.target.value)
+                            }
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="">Any Airport</option>
+                            {AIRPORTS.map((airport) => (
+                              <option key={airport.code} value={airport.code}>
+                                {airport.name} ({airport.code})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="budget"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Number of people
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Users
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="budget"
+                            value={budget}
+                            onChange={(e) => setBudget(Number(e.target.value))}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="1">1</option>
+                            <option value="2">+2</option>
+                            <option value="3">+3</option>
+                            <option value="4">+4</option>
+                            <option value="5">+5</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="budget"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Budget per person
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <TrendingUp
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <select
+                            id="budget"
+                            value={budget}
+                            onChange={(e) => setBudget(Number(e.target.value))}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          >
+                            <option value="1000">Up to €1,000</option>
+                            <option value="1500">Up to €1,500</option>
+                            <option value="2000">Up to €2,000</option>
+                            <option value="3000">Up to €3,000</option>
+                            <option value="5000">Up to €5,000</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div>
+                        <label
+                          htmlFor="startDate"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Departure date
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Calendar
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <input
+                            type="date"
+                            id="startDate"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="endDate"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Return date
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Calendar
+                              className="h-5 w-5 text-gray-400"
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                          <input
+                            type="date"
+                            id="endDate"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            min={startDate}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-accent-600 hover:bg-accent-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center transition-colors"
+                      onClick={() => {
+                        if (!departureAirport) {
+                          alert("Please select a departure airport.");
+                          return;
+                        }
+                        if (!budget) {
+                          alert("Please select a budget.");
+                          return;
+                        }
+                        navigate("/package-builder");
+                      }}
+                    >
+                      <Search className="w-5 h-5 mr-2" strokeWidth={2} />
+                      Search Ski Resorts
+                    </button>
+                  </>
+                )}
               </form>
             </div>
           </motion.div>
